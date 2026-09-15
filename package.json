@@ -1,0 +1,20 @@
+{
+  "name": "glasscode-workspace",
+  "version": "1.0.0",
+  "description": "Human + AI-Agent Live-Share IDE",
+  "private": true,
+  "scripts": {
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "dev:sandbox": "npm --prefix sandbox run dev",
+    "dev:agent": "npm --prefix agent run dev",
+    "build": "npm --prefix server run build && npm --prefix sandbox run build && npm --prefix agent run build && npm --prefix client run build",
+    "test:sync": "node server/test/sync-and-roles.test.mjs",
+    "test:sandbox": "node sandbox/test/sandbox.test.mjs",
+    "test:agent": "node agent/test/agent.test.mjs",
+    "test:navigator": "node agent/test/navigator.test.mjs",
+    "test:live": "node agent/test/live-agents-verification.mjs",
+    "test:comments": "node client/test/comments-relative-position.test.mjs",
+    "test:all": "npm run test:sync && npm run test:sandbox && npm run test:agent && npm run test:navigator && npm run test:live && npm run test:comments"
+  }
+}
