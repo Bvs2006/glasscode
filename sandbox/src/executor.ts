@@ -68,6 +68,8 @@ export async function runSandbox(options: SandboxOptions): Promise<SandboxResult
 
   const containerName = `sbx-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
   const normalizedWorkingDir = path.resolve(workingDir);
+  const uid = typeof process.getuid === 'function' ? process.getuid() : null;
+  const gid = typeof process.getgid === 'function' ? process.getgid() : null;
 
   const dockerArgs: string[] = [
     'run',
@@ -89,6 +91,10 @@ export async function runSandbox(options: SandboxOptions): Promise<SandboxResult
     `-m=${memoryLimit}`,
     '--pids-limit=64',
   ];
+
+  if (uid !== null && gid !== null) {
+    dockerArgs.push('--user', `${uid}:${gid}`);
+  }
 
   // Apply gVisor runtime if supported, otherwise apply strict security opts
   if (hasGVisor) {
