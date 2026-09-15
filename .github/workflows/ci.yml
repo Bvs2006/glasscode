@@ -1,0 +1,57 @@
+﻿name: GlassCode CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Build & Test Suites
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (v20)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm --prefix server install
+          npm --prefix sandbox install
+          npm --prefix agent install
+          npm --prefix client install
+
+      - name: Build All Workspaces
+        run: npm run build
+
+      - name: Pre-fetch Sandbox Docker Images
+        run: |
+          docker pull python:3.11-slim
+          docker pull node:20-slim
+
+      - name: Run All Acceptance & Integration Test Suites
+        run: npm run test:all
+
+  docker-compose:
+    name: Validate Docker Compose
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      - name: Build Docker Compose Services
+        run: docker compose build
