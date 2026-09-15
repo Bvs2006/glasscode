@@ -36,8 +36,9 @@ jobs:
 
       - name: Pre-fetch Sandbox Docker Images
         run: |
-          docker pull python:3.11-slim
-          docker pull node:20-slim
+          docker pull python:3.11-alpine
+          docker pull node:20-alpine
+          docker pull alpine:latest
 
       - name: Run All Acceptance & Integration Test Suites
         run: npm run test:all

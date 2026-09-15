@@ -8,6 +8,7 @@ import { execSync } from 'child_process';
 console.log('=== Starting Test Suite: Phase 6 (Sandboxed Code Execution) ===\n');
 
 const testDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sbx-test-suite-'));
+fs.chmodSync(testDir, 0o700);
 
 try {
   // TEST 1: Normal execution
