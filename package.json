@@ -15,6 +15,7 @@
     "test:navigator": "node agent/test/navigator.test.mjs",
     "test:live": "node agent/test/live-agents-verification.mjs",
     "test:comments": "node client/test/comments-relative-position.test.mjs",
-    "test:all": "npm run test:sync && npm run test:sandbox && npm run test:agent && npm run test:navigator && npm run test:live && npm run test:comments"
+    "test:awareness": "node client/test/awareness-participants.test.mjs",
+    "test:all": "npm run test:sync && npm run test:sandbox && npm run test:agent && npm run test:navigator && npm run test:live && npm run test:comments && npm run test:awareness"
   }
 }
